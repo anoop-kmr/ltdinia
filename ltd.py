@@ -62,6 +62,7 @@ def extractDetails(pno):
               pdt={studentDict["asin"]:price}
               if pdt not in List:
                 List.append(pdt)
+                time.sleep(1)
                 req=requests.get('https://api.telegram.org/bot1895716753:AAFFeYc5arNY1XTC-5OcXFMzpvh6VYzq0R8/sendMessage?chat_id=@livchk&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
                 print(pdt)
                 print(req)
