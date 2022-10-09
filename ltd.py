@@ -1,83 +1,78 @@
 import requests,os,time
-from urllib.parse import quote_plus
+import json
+from bs4 import BeautifulSoup
 from os import environ
 
-url = "https://www.lootdunia.in/api?query=query%20GetDeals($filter:%20DealsFilter,%20$first:%20Int,%20$after:%20String)%20{%20deals(filter:%20$filter,%20first:%20$first,%20after:%20$after)%20{%20edges%20{%20node%20{%20id%20postName%20stores%20{%20id%20description%20}%20postImage%20postLink%20newPrice%20oldPrice%20extras%20createdOn%20isFeatured%20}%20cursor%20}%20pageInfo%20{%20endCursor%20hasNextPage%20}%20}%20}&variables={%20%22first%22:%201,%20%22after%22:%20null,%20%22filter%22:%20{%20%22isDisabled%22:%20false,%20%22rating%22:%204,%20%22isFeatured%22:%20false%20}%20}"
-
-payload={}
-headers = {
-  'authority': 'www.lootdunia.in',
-  'pragma': 'no-cache',
-  'cache-control': 'no-cache',
-  'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="99"',
-  'accept': '*/*',
-  'x-requested-with': 'XMLHttpRequest',
-  'sec-ch-ua-mobile': '?0',
-  'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36',
-  'sec-ch-ua-platform': '"Linux"',
-  'sec-fetch-site': 'same-origin',
-  'sec-fetch-mode': 'cors',
-  'sec-fetch-dest': 'empty',
-  'referer': 'https://www.lootdunia.in/',
-  'accept-language': 'en-GB,en;q=0.9'
-  #'cookie': '_ga=GA1.2.1887507384.1646833650; _gid=GA1.2.1427646947.1646833650; _gat=1; _gat_gtag_UA_106604864_1=1; __gads=ID=27e4bf050a2631bb-22b8f1bce8d000db:T=1646833654:RT=1646833654:S=ALNI_MYsXsUAFPDGYjWhqRln_Q6121lAEw; connect.sid=s%3AXmLcD_vB5ZmzUvjojjCtDHF4FXpuaG3e.vuh5gx3fLNdzdiNKsVc5etwzOTjFnauHF4gQwIbAd%2BA'
-}
-
-response = requests.request("GET", url, headers=headers, data=payload)
-os.system('clear')
-print(response.json()["data"]["deals"]["edges"][0]["node"]["postName"])
-
+List = []
+pgno=26
 bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
-#url='http://164.68.96.227/Perk/?m=9118566696'#"http://upbhunaksha.gov.in/bhunaksha/09/plotreportUP.jsp?state=09&giscode=19000959190461&plotno=77"#"http://upsssc.gov.in/Online_App/AdmitCard.aspx?ID=P"
-headers1 = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
-api_url_telegram = "https://api.telegram.org/bot"+bot_token+"/sendMessage?chat_id={chat_id}&text="
-final_telegram_url=api_url_telegram.replace("{chat_id}",group_id)
-#print(final_telegram_url)
-uid =(response.json()["data"]["deals"]["edges"][0]["node"]["id"])
+def extractDetails(pno):
+  url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
-def strike(text):
-    result = ''
-    for c in text:
-        result = result + c + '\u0336'
-    return result
+  payload = json.dumps({
+    "customer-action": "pagination"
+  })
+  headers = {
+    'authority': 'www.amazon.in',
+    'accept': 'text/html,*/*',
+    'accept-language': 'en-GB,en;q=0.9',
+    'content-type': 'application/json',
+    'dnt': '1',
+    'sec-ch-ua': '"Chromium";v="103", ".Not/A)Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Linux"',
+    'sec-fetch-dest': 'document',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-site': 'none',
+    'sec-fetch-user': '?1',
+    'upgrade-insecure-requests': '1',
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36',
+    'Cookie': ''
+  }
 
-def chk():
-	response = requests.request("GET", url, headers=headers, data=payload)
-	#response=requests.head(url, headers=headers)
-	#print(response.status_code)
-	nuid=(response.json()["data"]["deals"]["edges"][0]["node"]["id"])
-	#print (nuid)
-	global uid
-	if nuid!=uid:
-		uid =response.json()["data"]["deals"]["edges"][0]["node"]["id"]
-		name=response.json()["data"]["deals"]["edges"][0]["node"]["postName"].replace('&','%26amp')
-		nprice=response.json()["data"]["deals"]["edges"][0]["node"]["newPrice"]
-		oprice=response.json()["data"]["deals"]["edges"][0]["node"]["oldPrice"]
-		site="https://www.lootdunia.in"+response.json()["data"]["deals"]["edges"][0]["node"]["postLink"]
-		res=requests.request("HEAD", site, allow_redirects=False)
-		redir=(res.headers["Location"]).replace('&','%26amp')
-		message=final_telegram_url+""+name+"\n\n "+str(nprice)+'   '+strike(str(oprice))+"\n\n"+redir+"\n"
-		requests.get(message,headers=headers1)
-		print(message)
-	#else:
-	#	print(response)
+  response = requests.request("POST", url, headers=headers, data=payload, allow_redirects=False)
 
-def exec():
-	message="upsssc site is live!!"
-	send_message_telegram(message)
+  cook=''
+  for c in response.cookies:
+      cook+=c.name +"="+ c.value
+  headers['Cookie']=cook
 
-def send_message_telegram(message):
-	final_telegram_url=api_url_telegram.replace("{chat_id}",group_id)
-	#print('here')
-	final_telegram_url=final_telegram_url+message;
-	#response=requests.get(final_telegram_url)
-	message = ('https://api.telegram.org/bot'+ bot_token + '/sendPhoto?chat_id=' 
-           + group_id)
-	send = requests.post(message, files = files)
-	print(send)
+  #print(response.text.split('\n&&&\n'))
+
+
+  for i in response.text.split('\n&&&\n'):
+      res = i.strip('][').split(', ')
+      #res=json.loads(i)
+      if "data-search-metadata" in i:
+        x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
+        studentDict = json.loads(x)
+        print(studentDict["metadata"]["totalResultCount"]//24)
+        pgno=studentDict["metadata"]["totalResultCount"]//24
+      try:
+          if "data-main-slot:search-result-" in i:
+              x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
+              #print(x+'\n\n')
+              studentDict = json.loads(x)
+              parsed_html = BeautifulSoup(studentDict["html"], "html.parser")
+              #print(studentDict["asin"])
+              #print(parsed_html.find('div',{'class':"s-title-instructions-style"}).text.strip())
+              price=(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
+              #print(price)
+              pdt={studentDict["asin"]:price}
+              if pdt not in List:
+                List.append(pdt)
+                requests.get('https://api.telegram.org/'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
+                print(pdt)
+              #break
+      except:
+          print('err')
+
+  #for student in List:
+  #    print(student)
 
 if __name__=="__main__":
-	while(1==1):
-		chk()
-		time.sleep(10)
+  while(1==1):
+    for i in range(1,pgno):
+      extractDetails(i)
+    time.sleep(1)
