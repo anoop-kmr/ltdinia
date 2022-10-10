@@ -76,10 +76,11 @@ def extractDetails(pno):
   #    print(student)
 
 if __name__=="__main__":
-  while(1==1):
-    extractDetails(1)
-    i=1
-    while i in range(1,pgno+1):
-      extractDetails(i)
-      i=i+1
-    time.sleep(10)
+  extractDetails(1)
+  i=1
+  while i in range(1,pgno+1):
+    extractDetails(i)
+    i=i+1
+    if i==pgno:
+      i=1
+  time.sleep(10)
