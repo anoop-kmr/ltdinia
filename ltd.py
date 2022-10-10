@@ -5,10 +5,15 @@ from os import environ
 
 List = {}
 pgno=2
+lowest_price={}
+bot_token=environ['BOT_TOKEN']
+group_id=environ['grp']
 
 def extractDetails(pno):
   global pgno
-  global List
+  global List,lowest_price
+  global bot_token
+  global group_id
   print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
@@ -66,11 +71,16 @@ def extractDetails(pno):
                 #pdt={studentDict["asin"]:price}
                 if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                   List[studentDict["asin"]]=price
-                  time.sleep(1)
-                  req=requests.get('https://api.telegram.org/bot1895716753:AAFFeYc5arNY1XTC-5OcXFMzpvh6VYzq0R8/sendMessage?chat_id=@livchk&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
+                  #time.sleep(1)
+                  if (studentDict["asin"] not in lowest_price) or lowest_price[studentDict["asin"]]>price:
+                    lowest_price[studentDict["asin"]]=price
+                    msg="\nLowest Price !!"
+                  elif lowest_price[studentDict["asin"]]<price:
+                    msg="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
+                  req=requests.get('https://api.telegram.org/bot"+bot_token+"/sendMessage?chat_id="+group_id+"&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price)+msg)
                   #print(pdt)
                   print(req)
-                  print(len(List))
+                  print(len(List),len(lowest_price))
                 #break
         except:
             print('err')
@@ -83,8 +93,6 @@ def extractDetails(pno):
 
 if __name__=="__main__":
   extractDetails(1)
-  bot_token=environ['BOT_TOKEN']
-  group_id=environ['grp']
   i=1
   while i in range(1,pgno+1):
     pgno=extractDetails(i)
