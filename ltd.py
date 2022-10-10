@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from os import environ
 
 List = {}
-pgno=26
+pgno=2
 bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
 def extractDetails(pno):
@@ -75,6 +75,7 @@ def extractDetails(pno):
 
 if __name__=="__main__":
   while(1==1):
+    extractDetails(1)
     for i in range(1,pgno+1):
       extractDetails(i)
-    time.sleep(1)
+      time.sleep(1)
