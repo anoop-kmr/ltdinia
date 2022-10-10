@@ -64,6 +64,7 @@ def extractDetails(pno):
               #pdt={studentDict["asin"]:price}
               if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                 List[studentDict["asin"]]=price
+                time.sleep(1)
                 req=requests.get('https://api.telegram.org/bot1895716753:AAFFeYc5arNY1XTC-5OcXFMzpvh6VYzq0R8/sendMessage?chat_id=@livchk&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
                 #print(pdt)
                 print(req)
@@ -77,6 +78,8 @@ def extractDetails(pno):
 if __name__=="__main__":
   while(1==1):
     extractDetails(1)
-    for i in range(1,pgno+1):
+    i=1
+    while i in range(1,pgno+1):
       extractDetails(i)
-      time.sleep(1)
+      i=i+1
+    time.sleep(10)
