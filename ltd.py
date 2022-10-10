@@ -32,46 +32,49 @@ def extractDetails(pno):
     'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36',
     'Cookie': ''
   }
+  
+  try:
+    response = requests.request("POST", url, headers=headers, data=payload, allow_redirects=False)
 
-  response = requests.request("POST", url, headers=headers, data=payload, allow_redirects=False)
+    cook=''
+    for c in response.cookies:
+        cook+=c.name +"="+ c.value
+    headers['Cookie']=cook
 
-  cook=''
-  for c in response.cookies:
-      cook+=c.name +"="+ c.value
-  headers['Cookie']=cook
-
-  #print(response.text.split('\n&&&\n'))
+    #print(response.text.split('\n&&&\n'))
 
 
-  for i in response.text.split('\n&&&\n'):
-      res = i.strip('][').split(', ')
-      #res=json.loads(i)
-      if "data-search-metadata" in i:
-        x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
-        studentDict = json.loads(x)
-        #print(studentDict["metadata"]["totalResultCount"]//24)
-        pgno=studentDict["metadata"]["totalResultCount"]//24
-        print(pgno)
-      try:
-          if "data-main-slot:search-result-" in i:
-              x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
-              #print(x+'\n\n')
-              studentDict = json.loads(x)
-              parsed_html = BeautifulSoup(studentDict["html"], "html.parser")
-              #print(studentDict["asin"])
-              #print(parsed_html.find('div',{'class':"s-title-instructions-style"}).text.strip())
-              price=(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
-              #print(price)
-              #pdt={studentDict["asin"]:price}
-              if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
-                List[studentDict["asin"]]=price
-                time.sleep(1)
-                req=requests.get('https://api.telegram.org/bot1895716753:AAFFeYc5arNY1XTC-5OcXFMzpvh6VYzq0R8/sendMessage?chat_id=@livchk&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
-                #print(pdt)
-                print(req)
-              #break
-      except:
-          print('err')
+    for i in response.text.split('\n&&&\n'):
+        res = i.strip('][').split(', ')
+        #res=json.loads(i)
+        if "data-search-metadata" in i:
+          x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
+          studentDict = json.loads(x)
+          #print(studentDict["metadata"]["totalResultCount"]//24)
+          pgno=studentDict["metadata"]["totalResultCount"]//24
+          print(pgno)
+        try:
+            if "data-main-slot:search-result-" in i:
+                x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
+                #print(x+'\n\n')
+                studentDict = json.loads(x)
+                parsed_html = BeautifulSoup(studentDict["html"], "html.parser")
+                #print(studentDict["asin"])
+                #print(parsed_html.find('div',{'class':"s-title-instructions-style"}).text.strip())
+                price=(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
+                #print(price)
+                #pdt={studentDict["asin"]:price}
+                if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
+                  List[studentDict["asin"]]=price
+                  time.sleep(1)
+                  req=requests.get('https://api.telegram.org/bot1895716753:AAFFeYc5arNY1XTC-5OcXFMzpvh6VYzq0R8/sendMessage?chat_id=@livchk&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
+                  #print(pdt)
+                  print(req)
+                #break
+        except:
+            print('err')
+  except:
+    print("Connection error")
 
   #for student in List:
   #    print(student)
