@@ -70,6 +70,7 @@ def extractDetails(pno):
                   req=requests.get('https://api.telegram.org/bot1895716753:AAFFeYc5arNY1XTC-5OcXFMzpvh6VYzq0R8/sendMessage?chat_id=@livchk&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
                   #print(pdt)
                   print(req)
+                  print(len(List))
                 #break
         except:
             print('err')
