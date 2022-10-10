@@ -3,7 +3,7 @@ import json
 from bs4 import BeautifulSoup
 from os import environ
 
-List = []
+List = {}
 pgno=26
 bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
@@ -59,9 +59,9 @@ def extractDetails(pno):
               #print(parsed_html.find('div',{'class':"s-title-instructions-style"}).text.strip())
               price=(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
               #print(price)
-              pdt={studentDict["asin"]:price}
-              if pdt not in List:
-                List.append(pdt)
+              #pdt={studentDict["asin"]:price}
+              if studentDict["asin"] not in List or List[studentDict["asin"]]!=price:
+                List[studentDict["asin"]]=price
                 req=requests.get('https://api.telegram.org/bot1895716753:AAFFeYc5arNY1XTC-5OcXFMzpvh6VYzq0R8/sendMessage?chat_id=@livchk&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
                 print(pdt)
                 print(req)
