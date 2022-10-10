@@ -8,6 +8,7 @@ pgno=26
 bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
 def extractDetails(pno):
+  print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
   payload = json.dumps({
@@ -47,7 +48,7 @@ def extractDetails(pno):
       if "data-search-metadata" in i:
         x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
         studentDict = json.loads(x)
-        print(studentDict["metadata"]["totalResultCount"]//24)
+        #print(studentDict["metadata"]["totalResultCount"]//24)
         pgno=studentDict["metadata"]["totalResultCount"]//24
       try:
           if "data-main-slot:search-result-" in i:
@@ -60,10 +61,10 @@ def extractDetails(pno):
               price=(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
               #print(price)
               #pdt={studentDict["asin"]:price}
-              if studentDict["asin"] not in List or List[studentDict["asin"]]!=price:
+              if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                 List[studentDict["asin"]]=price
                 req=requests.get('https://api.telegram.org/bot1895716753:AAFFeYc5arNY1XTC-5OcXFMzpvh6VYzq0R8/sendMessage?chat_id=@livchk&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price))
-                print(pdt)
+                #print(pdt)
                 print(req)
               #break
       except:
@@ -74,6 +75,6 @@ def extractDetails(pno):
 
 if __name__=="__main__":
   while(1==1):
-    for i in range(1,pgno):
+    for i in range(1,pgno+1):
       extractDetails(i)
     time.sleep(1)
