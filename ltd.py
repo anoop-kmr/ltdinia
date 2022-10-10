@@ -50,6 +50,7 @@ def extractDetails(pno):
         studentDict = json.loads(x)
         #print(studentDict["metadata"]["totalResultCount"]//24)
         pgno=studentDict["metadata"]["totalResultCount"]//24
+        print(pgno)
       try:
           if "data-main-slot:search-result-" in i:
               x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
