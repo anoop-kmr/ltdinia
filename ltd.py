@@ -3,9 +3,12 @@ import json
 from bs4 import BeautifulSoup
 from os import environ
 
+List = {}
+pgno=2
 
 def extractDetails(pno):
   global pgno
+  global List
   print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
@@ -76,8 +79,6 @@ def extractDetails(pno):
 
 if __name__=="__main__":
   extractDetails(1)
-  List = {}
-  pgno=2
   bot_token=environ['BOT_TOKEN']
   group_id=environ['grp']
   i=1
