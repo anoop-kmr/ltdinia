@@ -74,12 +74,13 @@ def extractDetails(pno):
 
   #for student in List:
   #    print(student)
+  return pgno
 
 if __name__=="__main__":
   extractDetails(1)
   i=1
   while i in range(1,pgno+1):
-    extractDetails(i)
+    pgno=extractDetails(i)
     i=i+1
     if i==pgno:
       i=1
