@@ -72,6 +72,7 @@ def extractDetails(pno):
                 if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                   List[studentDict["asin"]]=price
                   #time.sleep(1)
+                  msg=""
                   if (studentDict["asin"] not in lowest_price) or lowest_price[studentDict["asin"]]>price:
                     lowest_price[studentDict["asin"]]=price
                     msg="\nLowest Price !!"
