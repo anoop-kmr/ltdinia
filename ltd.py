@@ -16,6 +16,7 @@ def extractDetails(pno):
   global group_id
   with open('lowest.txt',encoding='utf-8') as f:
     data = f.read()
+    f.close()
   lowest_price = json.loads(data)
   print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
@@ -95,6 +96,7 @@ def extractDetails(pno):
   #    print(student)
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(str(lowest_price))
+    f.close()
   return pgno
 
 if __name__=="__main__":
