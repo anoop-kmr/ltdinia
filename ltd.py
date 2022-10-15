@@ -94,6 +94,7 @@ def extractDetails(pno):
 
   #for student in List:
   #    print(student)
+  print(str(lowest_price))
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(str(lowest_price))
     fw.close()
