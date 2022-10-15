@@ -15,10 +15,10 @@ def extractDetails(pno):
   global bot_token
   global group_id
   with open('lowest.txt',encoding='utf-8') as f:
-    i = f.read()
+    data = f.read()
     f.close()
-    print(i)
-  data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
+    print(data)
+  #data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
   lowest_price = json.loads(data)
   print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
@@ -98,7 +98,7 @@ def extractDetails(pno):
   #    print(student)
   print(str(lowest_price))
   with open('lowest.txt','wt',encoding='utf-8') as fw:
-    fw.write(str(lowest_price))
+    fw.write(json.dumps(lowest_price))
     fw.close()
   return pgno
 
