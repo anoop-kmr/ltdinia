@@ -5,15 +5,18 @@ from os import environ
 
 List = {}
 pgno=2
-lowest_price={}
+#lowest_price={}
 bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
 
 def extractDetails(pno):
   global pgno
-  global List,lowest_price
+  global List
   global bot_token
   global group_id
+  with open('lowest.txt',encoding='utf-8') as f:
+    data = f.read()
+  lowest_price = json.loads(data)
   print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
@@ -90,6 +93,8 @@ def extractDetails(pno):
 
   #for student in List:
   #    print(student)
+  with open('lowest.txt','w',encoding='utf-8') as fw:
+    fw.write(str(lowest_price))
   return pgno
 
 if __name__=="__main__":
