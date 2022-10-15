@@ -96,7 +96,7 @@ def extractDetails(pno):
   #    print(student)
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(str(lowest_price))
-    f.close()
+    fw.close()
   return pgno
 
 if __name__=="__main__":
