@@ -18,7 +18,7 @@ def extractDetails(pno):
     data = f.read()
     f.close()
     print(data)
-  lowest_price = json.loads(data)
+  lowest_price = data#json.loads(data)
   print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
@@ -97,7 +97,7 @@ def extractDetails(pno):
   #    print(student)
   print(str(lowest_price))
   with open('lowest.txt','wt',encoding='utf-8') as fw:
-    fw.write('\''+str(lowest_price)+'\'')
+    fw.write(str(lowest_price))
     fw.close()
   return pgno
 
