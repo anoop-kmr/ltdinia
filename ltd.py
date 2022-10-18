@@ -11,7 +11,6 @@ group_id=environ['grp']
 
 def extractDetails(pno):
   global pgno
-  global List
   global bot_token
   global group_id
   with open('lowest.txt',encoding='utf-8') as f:
@@ -20,6 +19,7 @@ def extractDetails(pno):
     print(data)
   #data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
   lowest_price = json.loads(data)
+  List=lowest_price
   print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
@@ -75,14 +75,14 @@ def extractDetails(pno):
                 price=(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
                 #print(price)
                 #pdt={studentDict["asin"]:price}
-                if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
+                if (studentDict["asin"] not in List) or int(List[studentDict["asin"]])!=int(price):
                   List[studentDict["asin"]]=price
                   #time.sleep(1)
                   msg=""
-                  if (studentDict["asin"] not in lowest_price) or lowest_price[studentDict["asin"]]>price:
+                  if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>int(price):
                     lowest_price[studentDict["asin"]]=price
                     msg="\nLowest Price !!"
-                  elif lowest_price[studentDict["asin"]]<price:
+                  elif int(lowest_price[studentDict["asin"]])<int(price):
                     msg="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
                   req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price)+msg)
                   #print(pdt)
