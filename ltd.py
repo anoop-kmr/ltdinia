@@ -11,6 +11,7 @@ group_id=environ['grp']
 
 def extractDetails(pno):
   global pgno
+  global List
   global bot_token
   global group_id
   with open('lowest.txt',encoding='utf-8') as f:
