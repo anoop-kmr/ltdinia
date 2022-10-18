@@ -76,14 +76,14 @@ def extractDetails(pno):
                 price=(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
                 #print(price)
                 #pdt={studentDict["asin"]:price}
-                if (studentDict["asin"] not in List) or int(List[studentDict["asin"]])!=int(price):
+                if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                   List[studentDict["asin"]]=price
                   #time.sleep(1)
                   msg=""
-                  if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>int(price):
+                  if (studentDict["asin"] not in lowest_price) or lowest_price[studentDict["asin"]]>price:
                     lowest_price[studentDict["asin"]]=price
                     msg="\nLowest Price !!"
-                  elif int(lowest_price[studentDict["asin"]])<int(price):
+                  elif lowest_price[studentDict["asin"]]<price:
                     msg="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
                   req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price)+msg)
                   #print(pdt)
