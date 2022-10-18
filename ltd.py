@@ -85,7 +85,7 @@ def extractDetails(pno):
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D&psc=1\n'+str(price)+msg)
                   elif int(lowest_price[studentDict["asin"]])<price:
                     msg="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
-                    req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'\n'+str(price)+msg)
+                    req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D&psc=1\n'+str(price)+msg)
                   #print(pdt)
                   print(req)
                   print(len(List),len(lowest_price))
