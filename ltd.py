@@ -78,7 +78,7 @@ def extractDetails(pno):
                 #pdt={studentDict["asin"]:price}
                 if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                   List[studentDict["asin"]]=price
-                  #time.sleep(1)
+                  time.sleep(3)
                   msg=""
                   if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price:
                     lowest_price[studentDict["asin"]]=price
@@ -98,7 +98,7 @@ def extractDetails(pno):
 
   #for student in List:
   #    print(student)
-  print(str(lowest_price))
+  #print(str(lowest_price))
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(json.dumps(lowest_price))
     fw.close()
