@@ -114,13 +114,12 @@ def extractDetails(pno):
 #if __name__=="__main__":
 extractDetails(1)
 i=1
+with socketserver.TCPServer(("", PORT), Handler) as httpd:
+  print("serving at port", PORT)
+  httpd.serve_forever()
 while i in range(1,pgno+1):
   pgno=extractDetails(i)
   i=i+1
   if i==pgno:
     i=1
 time.sleep(10)
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()
-
