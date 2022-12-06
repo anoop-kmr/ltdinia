@@ -118,14 +118,16 @@ def extractDetails(pno):
 extractDetails(1)
 #time.sleep(10)
 i=1
-print("Thread Running!!")
-while i in range(1,pgno+1):
-  pgno=extractDetails(i)
-  i=i+1
-  if i==pgno:
-    i=1
-#thread = threading.Thread(None, extr)
-#thread.start()
+def extr():
+  global i,pgno
+  print("Thread Running!!")
+  while i in range(1,pgno+1):
+    pgno=extractDetails(i)
+    i=i+1
+    if i==pgno:
+      i=1
+thread = threading.Thread(None, extr)
+thread.start()
 print('Waiting for the thread...')
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
@@ -133,6 +135,6 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
   httpd.serve_forever()
   thread2 = threading.Thread(None, httpd.serve_forever)
   thread2.start()
-#thread.join()
+thread.join()
 thread2.join()
 time.sleep(10)
