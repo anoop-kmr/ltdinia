@@ -5,10 +5,24 @@ from os import environ
 
 import http.server
 import socketserver
+import threading
 
-PORT = 8000
+class StoppableHTTPServer(http.server.HTTPServer):
+    def run(self):
+        try:
+            self.serve_forever()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            # Clean-up server (close socket, etc.)
+            self.server_close()
 
-Handler = http.server.SimpleHTTPRequestHandler
+server = StoppableHTTPServer(("127.0.0.1", 8080),
+                             http.server.BaseHTTPRequestHandler)
+
+# Start processing requests
+thread = threading.Thread(None, server.run)
+thread.start()
 
 List = {}
 pgno=2
@@ -114,9 +128,6 @@ def extractDetails(pno):
 #if __name__=="__main__":
 extractDetails(1)
 i=1
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-  print("serving at port", PORT)
-  httpd.serve_forever()
 while i in range(1,pgno+1):
   pgno=extractDetails(i)
   i=i+1
