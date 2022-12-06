@@ -10,10 +10,6 @@ PORT = 8000
 
 Handler = http.server.SimpleHTTPRequestHandler
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()
-
 List = {}
 pgno=2
 #lowest_price={}
@@ -124,3 +120,7 @@ while i in range(1,pgno+1):
   if i==pgno:
     i=1
 time.sleep(10)
+with socketserver.TCPServer(("", PORT), Handler) as httpd:
+    print("serving at port", PORT)
+    httpd.serve_forever()
+
