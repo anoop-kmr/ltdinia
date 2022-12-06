@@ -127,10 +127,12 @@ def extr():
 thread = threading.Thread(None, extr)
 thread.start()
 print('Waiting for the thread...')
-thread.join()
+
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print("serving at port", PORT)
     httpd.serve_forever()
-    #thread2 = threading.Thread(None, httpd.serve_forever)
-    #thread2.start()
+    thread2 = threading.Thread(None, httpd.serve_forever)
+    thread2.start()
+thread.join()
+thread2.join()
 #time.sleep(10)
