@@ -6,20 +6,12 @@ from os import environ
 import http.server
 import socketserver
 import threading
-'''
-server = StoppableHTTPServer(("127.0.0.1", 8080),
-                             http.server.BaseHTTPRequestHandler)
-'''
-# Start processing requests
+
 
 PORT = 8000
 
 Handler = http.server.SimpleHTTPRequestHandler
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    thread = threading.Thread(None, httpd.serve_forever)
-    thread.start()
 
 List = {}
 pgno=2
@@ -35,10 +27,10 @@ def extractDetails(pno):
   with open('lowest.txt',encoding='utf-8') as f:
     data = f.read()
     f.close()
-    print(data)
+    #print(data)
   #data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
   lowest_price = json.loads(data)
-  print(pno)
+  #print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
   payload = json.dumps({
@@ -81,7 +73,7 @@ def extractDetails(pno):
           studentDict = json.loads(x)
           #print(studentDict["metadata"]["totalResultCount"]//24)
           pgno=studentDict["metadata"]["totalResultCount"]//24
-          print(pgno)
+          #print(pgno)
         try:
             if "data-main-slot:search-result-" in i:
                 x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
@@ -106,13 +98,13 @@ def extractDetails(pno):
                     msg="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
                   #print(pdt)
-                  print(req)
-                  print(len(List),len(lowest_price))
+                  #print(req)
+                  #print(len(List),len(lowest_price))
                 #break
         except:
-            print('err')
+            pass
   except:
-    print("Connection error")
+    pass
 
   #for student in List:
   #    print(student)
@@ -125,9 +117,15 @@ def extractDetails(pno):
 #if __name__=="__main__":
 extractDetails(1)
 i=1
-while i in range(1,pgno+1):
-  pgno=extractDetails(i)
-  i=i+1
-  if i==pgno:
-    i=1
+def extr():
+  while i in range(1,pgno+1):
+    pgno=extractDetails(i)
+    i=i+1
+    if i==pgno:
+      i=1
+thread = threading.Thread(None, extr)
+thread.start()
+with socketserver.TCPServer(("", PORT), Handler) as httpd:
+    print("serving at port", PORT)
+    httpd.serve_forever()
 time.sleep(10)
