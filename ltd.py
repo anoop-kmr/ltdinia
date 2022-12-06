@@ -127,5 +127,6 @@ thread = threading.Thread(None, extr)
 thread.start()
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print("serving at port", PORT)
-    httpd.serve_forever()
-time.sleep(10)
+    thread = threading.Thread(None, httpd.serve_forever)
+    thread.start()
+#time.sleep(10)
