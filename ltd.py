@@ -30,7 +30,7 @@ def extractDetails(pno):
     #print(data)
   #data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
   lowest_price = json.loads(data)
-  #print(pno)
+  print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
   payload = json.dumps({
@@ -135,6 +135,6 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
   httpd.serve_forever()
   thread2 = threading.Thread(None, httpd.serve_forever)
   thread2.start()
-thread.join()
-thread2.join()
+#thread.join()
+#thread2.join()
 time.sleep(10)
