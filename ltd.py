@@ -123,10 +123,10 @@ def extr():
     i=i+1
     if i==pgno:
       i=1
-thread = threading.Thread(None, extr)
-thread.start()
+thread1 = threading.Thread(None, extr)
+thread1.start()
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print("serving at port", PORT)
-    thread = threading.Thread(None, httpd.serve_forever)
-    thread.start()
+    thread2 = threading.Thread(None, httpd.serve_forever)
+    thread2.start()
 #time.sleep(10)
