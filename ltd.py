@@ -115,12 +115,12 @@ def extractDetails(pno):
     fw.close()
   return pgno
 
-if __name__=="__main__":
-  extractDetails(1)
-  i=1
-  while i in range(1,pgno+1):
-    pgno=extractDetails(i)
-    i=i+1
-    if i==pgno:
-      i=1
-  time.sleep(10)
+#if __name__=="__main__":
+extractDetails(1)
+i=1
+while i in range(1,pgno+1):
+  pgno=extractDetails(i)
+  i=i+1
+  if i==pgno:
+    i=1
+time.sleep(10)
