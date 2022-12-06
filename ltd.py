@@ -6,23 +6,20 @@ from os import environ
 import http.server
 import socketserver
 import threading
-
-class StoppableHTTPServer(http.server.HTTPServer):
-    def run(self):
-        try:
-            self.serve_forever()
-        except KeyboardInterrupt:
-            pass
-        finally:
-            # Clean-up server (close socket, etc.)
-            self.server_close()
-
+'''
 server = StoppableHTTPServer(("127.0.0.1", 8080),
                              http.server.BaseHTTPRequestHandler)
-
+'''
 # Start processing requests
-thread = threading.Thread(None, server.run)
-thread.start()
+
+PORT = 8000
+
+Handler = http.server.SimpleHTTPRequestHandler
+
+with socketserver.TCPServer(("", PORT), Handler) as httpd:
+    print("serving at port", PORT)
+    thread = threading.Thread(None, httpd.serve_forever)
+    thread.start()
 
 List = {}
 pgno=2
@@ -99,7 +96,7 @@ def extractDetails(pno):
                 #pdt={studentDict["asin"]:price}
                 if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                   List[studentDict["asin"]]=price
-                  time.sleep(3)
+                  #time.sleep(3)
                   msg=""
                   if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price:
                     lowest_price[studentDict["asin"]]=price
