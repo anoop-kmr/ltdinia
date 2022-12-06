@@ -116,6 +116,7 @@ def extractDetails(pno):
 
 #if __name__=="__main__":
 extractDetails(1)
+time.sleep(10)
 i=1
 def extr():
   print("Thread Running!!")
@@ -129,10 +130,10 @@ thread.start()
 print('Waiting for the thread...')
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()
-    thread2 = threading.Thread(None, httpd.serve_forever)
-    thread2.start()
+  print("serving at port", PORT)
+  httpd.serve_forever()
+  thread2 = threading.Thread(None, httpd.serve_forever)
+  thread2.start()
 thread.join()
 thread2.join()
-#time.sleep(10)
+time.sleep(10)
