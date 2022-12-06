@@ -102,9 +102,9 @@ def extractDetails(pno):
                   #print(len(List),len(lowest_price))
                 #break
         except:
-            pass
+            print('err')
   except:
-    pass
+    print("Connection Error")
 
   #for student in List:
   #    print(student)
@@ -116,17 +116,16 @@ def extractDetails(pno):
 
 #if __name__=="__main__":
 extractDetails(1)
-time.sleep(10)
+#time.sleep(10)
 i=1
-def extr():
-  print("Thread Running!!")
-  while i in range(1,pgno+1):
-    pgno=extractDetails(i)
-    i=i+1
-    if i==pgno:
-      i=1
-thread = threading.Thread(None, extr)
-thread.start()
+print("Thread Running!!")
+while i in range(1,pgno+1):
+  pgno=extractDetails(i)
+  i=i+1
+  if i==pgno:
+    i=1
+#thread = threading.Thread(None, extr)
+#thread.start()
 print('Waiting for the thread...')
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
@@ -134,6 +133,6 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
   httpd.serve_forever()
   thread2 = threading.Thread(None, httpd.serve_forever)
   thread2.start()
-thread.join()
+#thread.join()
 thread2.join()
 time.sleep(10)
