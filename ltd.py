@@ -126,6 +126,7 @@ def extr():
     i=i+1
     if i==pgno:
       i=1
+      time.sleep(10)
       r = requests.get("https://ltdin.onrender.com/lowest.txt")
 thread = threading.Thread(None, extr)
 thread.start()
