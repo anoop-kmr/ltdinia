@@ -129,6 +129,7 @@ def extr():
       time.sleep(10)
       r = requests.get("https://ltdin.onrender.com/lowest.txt")
 thread = threading.Thread(None, extr)
+thread.setDaemon(True)
 thread.start()
 print('Waiting for the thread...')
 
@@ -136,6 +137,7 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
   print("serving at port", PORT)
   httpd.serve_forever()
   thread2 = threading.Thread(None, httpd.serve_forever)
+  thread2.setDaemon(True)
   thread2.start()
 #thread.join()
 #thread2.join()
