@@ -128,7 +128,7 @@ def extr():
     if i==pgno:
       i=1
       time.sleep(10)
-    print(subprocess.run(["./upd_price.sh",git_token]))
+      print(subprocess.run(["./upd_price.sh",git_token]))
 thread = threading.Thread(None, extr)
 thread.setDaemon(True)
 thread.start()
