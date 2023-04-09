@@ -20,6 +20,12 @@ bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
 git_token=environ['GIT_TOKEN']
 
+git_data = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest.txt')
+lp = json.loads(git_data.text)
+with open('lowest.txt','wt',encoding='utf-8') as fw:
+  fw.write(json.dumps(lp))
+  fw.close()
+
 def extractDetails(pno):
   global pgno
   global List
