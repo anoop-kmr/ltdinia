@@ -20,18 +20,23 @@ bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
 git_token=environ['GIT_TOKEN']
 
+git_data = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest.txt')
+lp = json.loads(git_data.text)
+with open('lowest.txt','wt',encoding='utf-8') as fw:
+  fw.write(json.dumps(lp))
+  fw.close()
+
 def extractDetails(pno):
   global pgno
   global List
   global bot_token
   global group_id
-#   with open('lowest.txt',encoding='utf-8') as f:
-#     data = f.read()
-#     f.close()
+  with open('lowest.txt',encoding='utf-8') as f:
+    data = f.read()
+    f.close()
     #print(data)
   #data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
-  data = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest.txt')
-  lowest_price = json.loads(data.text)
+  lowest_price = json.loads(data)
   print(pno)
   url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
@@ -130,7 +135,7 @@ def extr():
     if i==pgno:
       i=1
       time.sleep(10)
-#     r = requests.get("https://ltdin.onrender.com/lowest.txt")
+    r = requests.get("https://ltdin.onrender.com/lowest.txt")
 thread = threading.Thread(None, extr)
 thread.setDaemon(True)
 thread.start()
