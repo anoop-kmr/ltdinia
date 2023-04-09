@@ -139,6 +139,6 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
 #   thread2 = threading.Thread(None, httpd.serve_forever)
 #   thread2.setDaemon(True)
 #   thread2.start()
-#thread.join()
+thread.join()
 #thread2.join()
 # time.sleep(10)
