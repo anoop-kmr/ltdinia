@@ -143,15 +143,13 @@ print('Waiting for the thread...')
 from flask import Flask 
 from flask_autoindex import AutoIndex
 
-app = Flask(__name__)
-
-ppath = "/" # update your own parent directory here
-
-app = Flask(__name__)
-AutoIndex(app, browse_root=ppath)    
-
-app.run()
-
+def flask_app():
+  app = Flask(__name__)
+  ppath = "/" # update your own parent directory here
+  app = Flask(__name__)
+  AutoIndex(app, browse_root=ppath)    
+  app.run()
+flask_app()
 # thread.join()
 #thread2.join()
 # time.sleep(10)
