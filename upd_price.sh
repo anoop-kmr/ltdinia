@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 home_dir=$pwd
 
 # update the file
