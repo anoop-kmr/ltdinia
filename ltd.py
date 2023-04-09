@@ -113,7 +113,7 @@ def extractDetails(pno):
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(json.dumps(lowest_price))
     fw.close()
-  print(subprocess.run(["/upd_price.sh",git_token]))
+  print(subprocess.run(["./upd_price.sh",git_token]))
   return pgno
 
 #if __name__=="__main__":
