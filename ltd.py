@@ -6,7 +6,7 @@ from os import environ
 import http.server
 import socketserver
 import threading
-
+import subprocess
 
 PORT = 8000
 
@@ -18,6 +18,7 @@ pgno=2
 #lowest_price={}
 bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
+git_token=environ['GIT_TOKEN']
 
 def extractDetails(pno):
   global pgno
@@ -112,6 +113,7 @@ def extractDetails(pno):
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(json.dumps(lowest_price))
     fw.close()
+  print(subprocess.run(["/upd_price.sh",git_token]))
   return pgno
 
 #if __name__=="__main__":
