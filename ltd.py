@@ -23,7 +23,7 @@ git_token=environ['GIT_TOKEN']
 def extractDetails(pno):
   global pgno
   global List
-  global bot_token,git_token
+  global bot_token
   global group_id
 #   with open('lowest.txt',encoding='utf-8') as f:
 #     data = f.read()
