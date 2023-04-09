@@ -126,10 +126,11 @@ def extr():
     i=i+1
     if i==pgno:
       i=1
-      time.sleep(10)
-      r = requests.get("https://ltdin.onrender.com/lowest.txt")
+      time.sleep(20)
+  ext_msg=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=Exited!!')
+
 thread = threading.Thread(None, extr)
-thread.setDaemon(True)
+# thread.setDaemon(True)
 thread.start()
 print('Waiting for the thread...')
 
