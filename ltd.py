@@ -119,6 +119,7 @@ def extractDetails(pno):
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(json.dumps(lowest_price))
     fw.close()
+  print(requests.head("https://ltdin.onrender.com/lowest.txt"))
   return pgno
 
 #if __name__=="__main__":
