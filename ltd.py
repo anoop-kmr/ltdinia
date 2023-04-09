@@ -3,14 +3,14 @@ import json
 from bs4 import BeautifulSoup
 from os import environ
 
-# import http.server
-# import socketserver
+import http.server
+import socketserver
 import threading
 
 
-# PORT = 8000
+PORT = 8000
 
-# Handler = http.server.SimpleHTTPRequestHandler
+Handler = http.server.SimpleHTTPRequestHandler
 
 
 List = {}
@@ -126,30 +126,19 @@ def extr():
     i=i+1
     if i==pgno:
       i=1
-      time.sleep(20)
-  ext_msg=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=Exited!!')
-
+      time.sleep(10)
+    r = requests.get("https://ltdin.onrender.com/lowest.txt")
 thread = threading.Thread(None, extr)
-# thread.setDaemon(True)
+thread.setDaemon(True)
 thread.start()
 print('Waiting for the thread...')
 
-# with socketserver.TCPServer(("", PORT), Handler) as httpd:
-#   print("serving at port", PORT)
-#   httpd.serve_forever()
+with socketserver.TCPServer(("", PORT), Handler) as httpd:
+  print("serving at port", PORT)
+  httpd.serve_forever()
 #   thread2 = threading.Thread(None, httpd.serve_forever)
 #   thread2.setDaemon(True)
 #   thread2.start()
-from flask import Flask 
-from flask_autoindex import AutoIndex
-
-def flask_app():
-  app = Flask(__name__)
-  ppath = "/" # update your own parent directory here
-  app = Flask(__name__)
-  AutoIndex(app, browse_root=ppath)    
-  app.run()
-flask_app()
-# thread.join()
+#thread.join()
 #thread2.join()
 # time.sleep(10)
