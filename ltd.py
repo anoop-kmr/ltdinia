@@ -127,7 +127,7 @@ extractDetails(1)
 #time.sleep(10)
 i=1
 def extr():
-  global i,pgno
+  global i,pgno,git_token
   print("Thread Running!!")
   while i in range(1,pgno+1):
     pgno=extractDetails(i)
@@ -135,7 +135,7 @@ def extr():
     if i==pgno:
       i=1
       time.sleep(10)
-    r = requests.get("https://ltdin.onrender.com/lowest.txt")
+      print(subprocess.run(["./upd_price.sh",git_token]))
 thread = threading.Thread(None, extr)
 thread.setDaemon(True)
 thread.start()
