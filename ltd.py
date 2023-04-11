@@ -26,6 +26,27 @@ with open('lowest.txt','wt',encoding='utf-8') as fw:
   fw.write(json.dumps(lp))
   fw.close()
 
+def push_to_github(filename, repo, branch, token):
+    url="https://api.github.com/repos/"+repo+"/contents/"+filename
+
+    base64content=base64.b64encode(open(filename,"rb").read())
+
+    data = requests.get(url+'?ref='+branch, headers = {"Authorization": "token "+token}).json()
+    sha = data['sha']
+
+    if base64content.decode('utf-8')+"\n" != data['content']:
+        message = json.dumps({"message":"update",
+                            "branch": branch,
+                            "content": base64content.decode("utf-8") ,
+                            "sha": sha
+                            })
+
+        resp=requests.put(url, data = message, headers = {"Content-Type": "application/json", "Authorization": "token "+token})
+
+        print(resp)
+    else:
+        print("nothing to update")
+
 def extractDetails(pno):
   global pgno
   global List
@@ -135,7 +156,11 @@ def extr():
     if i==pgno:
       i=1
       time.sleep(10)
-      print(subprocess.run(["./upd_price.sh",git_token]))
+      filename="lowest.txt"
+      repo = "anoop-kmr/ltdinia"
+      branch="feature/updated_prices"
+      push_to_github(filename, repo, branch, git_token)
+#       print(subprocess.run(["./upd_price.sh",git_token]))
 thread = threading.Thread(None, extr)
 thread.setDaemon(True)
 thread.start()
