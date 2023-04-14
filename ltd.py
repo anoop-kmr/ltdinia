@@ -162,15 +162,20 @@ def extr():
       push_to_github(filename, repo, branch, git_token)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
 thread = threading.Thread(None, extr)
-thread.setDaemon(True)
 thread.start()
 print('Waiting for the thread...')
+
+def self_ping():
+  while True:
+    time.sleep(840)
+    print(requests.head("https://ltdin.onrender.com/lowest.txt"))
+thread3 = threading.Thread(None, self_ping)
+thread3.start()
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
   print("serving at port", PORT)
   httpd.serve_forever()
   thread2 = threading.Thread(None, httpd.serve_forever)
-  thread2.setDaemon(True)
   thread2.start()
 #thread.join()
 #thread2.join()
