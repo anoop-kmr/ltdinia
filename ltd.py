@@ -140,7 +140,7 @@ def extractDetails(pno):
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(json.dumps(lowest_price))
     fw.close()
-  print(requests.head("https://ltdinia.onrender.com/"))
+#   print(requests.head("https://ltdinia.onrender.com/"))
   return pgno
 
 #if __name__=="__main__":
@@ -167,7 +167,7 @@ print('Waiting for the thread...')
 
 def self_ping():
   while True:
-    time.sleep(840)
+    time.sleep(640)
     print(requests.head("https://ltdinia.onrender.com/"))
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
