@@ -179,4 +179,4 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
   thread2.start()
 #thread.join()
 #thread2.join()
-#time.sleep(10)
+time.sleep(10)
