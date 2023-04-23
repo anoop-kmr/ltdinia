@@ -167,7 +167,7 @@ print('Waiting for the thread...')
 
 def self_ping():
   while True:
-    time.sleep(640)
+    time.sleep(740)
     print(requests.head("https://ltdinia.onrender.com/"))
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
@@ -179,4 +179,4 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
   thread2.start()
 #thread.join()
 #thread2.join()
-time.sleep(10)
+#time.sleep(10)
