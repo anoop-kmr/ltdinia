@@ -168,7 +168,7 @@ print('Waiting for the thread...')
 def self_ping():
   while True:
     time.sleep(540)
-    print(requests.head("https://ltdinia.onrender.com/"))
+    print(requests.get("https://ltdinia.onrender.com/"))
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
 
