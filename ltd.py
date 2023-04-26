@@ -3,20 +3,14 @@ import json,base64
 from bs4 import BeautifulSoup
 from os import environ
 
-# import http.server
-# import socketserver
+import http.server
+import socketserver
 import threading
 import subprocess
-from flask import Flask, send_from_directory
-app = Flask(__name__)
 
-@app.route('/')
-def serve_static(path):
-    return send_from_directory('static', '/')
-app.run(debug=True, port=8000)
-# PORT = 8000
+PORT = 8000
 
-# Handler = http.server.SimpleHTTPRequestHandler
+Handler = http.server.SimpleHTTPRequestHandler
 
 
 List = {}
@@ -159,7 +153,6 @@ def extr():
   while i in range(1,pgno+1):
     pgno=extractDetails(i)
     i=i+1
-    requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text='+pgno)
     if i==pgno:
       i=1
       time.sleep(10)
@@ -179,15 +172,13 @@ def self_ping():
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
 
-
-
-# with socketserver.TCPServer(("", PORT), Handler) as httpd:
-#   print("serving at port", PORT)
-#   try:
-#     httpd.serve_forever()
-#   except:
-#     time.sleep(5)
-#     print("Error in serving http request")
+with socketserver.TCPServer(("", PORT), Handler) as httpd:
+  print("serving at port", PORT)
+  try:
+    httpd.serve_forever()
+  except:
+    time.sleep(5)
+    print("Error in serving http request")
   #thread2 = threading.Thread(None, httpd.serve_forever)
   #thread2.start()
 #thread.join()
