@@ -121,9 +121,11 @@ def extractDetails(pno):
                   if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price:
                     lowest_price[studentDict["asin"]]=price
                     msg="\nLowest Price !!"
+                    time.sleep(3)
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
                   elif int(lowest_price[studentDict["asin"]])<price:
                     msg="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
+                    time.sleep(3)
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
                   #print(pdt)
                   #print(req)
@@ -153,7 +155,6 @@ def extr():
   while i in range(1,pgno+1):
     pgno=extractDetails(i)
     i=i+1
-    requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text='+str(pgno))
     if i==pgno:
       i=1
       time.sleep(10)
