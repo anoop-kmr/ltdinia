@@ -174,7 +174,11 @@ thread3.start()
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
   print("serving at port", PORT)
-  httpd.serve_forever()
+  try:
+    httpd.serve_forever()
+  except:
+    time.sleep(5)
+    print("Error in serving http request")
   #thread2 = threading.Thread(None, httpd.serve_forever)
   #thread2.start()
 #thread.join()
