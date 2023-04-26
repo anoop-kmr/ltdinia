@@ -153,6 +153,7 @@ def extr():
   while i in range(1,pgno+1):
     pgno=extractDetails(i)
     i=i+1
+    requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text='+pgno)
     if i==pgno:
       i=1
       time.sleep(10)
@@ -161,8 +162,8 @@ def extr():
       branch="feature/updated_prices"
       push_to_github(filename, repo, branch, git_token)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
-thread = threading.Thread(None, extr)
-thread.start()
+thread1 = threading.Thread(None, extr)
+thread1.start()
 print('Waiting for the thread...')
 
 def self_ping():
