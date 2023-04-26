@@ -153,6 +153,7 @@ def extr():
   while i in range(1,pgno+1):
     pgno=extractDetails(i)
     i=i+1
+    requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text='+pgno)
     if i==pgno:
       i=1
       time.sleep(10)
