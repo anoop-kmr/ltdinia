@@ -159,10 +159,6 @@ def extr():
     if i==pgno:
       i=1
       time.sleep(10)
-      filename="lowest.txt"
-      repo = "anoop-kmr/ltdinia"
-      branch="feature/updated_prices"
-      push_to_github(filename, repo, branch, git_token)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
 thread1 = threading.Thread(None, extr)
 thread1.start()
@@ -171,6 +167,10 @@ print('Waiting for the thread...')
 def self_ping():
   while True:
     time.sleep(540)
+    filename="lowest.txt"
+    repo = "anoop-kmr/ltdinia"
+    branch="feature/updated_prices"
+    push_to_github(filename, repo, branch, git_token)
     print(requests.get("https://ltdinia.onrender.com/"))
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
