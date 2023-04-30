@@ -156,12 +156,10 @@ def extr():
     pgno=extractDetails(i)
 #     requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text='+str(i))
     i=i+1
-    if i==pgno:
-      i=1
-      time.sleep(10)
+#     if i==pgno:
+#       i=1
+#       time.sleep(10)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
-thread1 = threading.Thread(None, extr)
-thread1.start()
 print('Waiting for the thread...')
 
 def self_ping():
@@ -172,6 +170,12 @@ def self_ping():
     branch="feature/updated_prices"
     push_to_github(filename, repo, branch, git_token)
     print(requests.get("https://ltdinia.onrender.com/"))
+    try:
+      thread1 = threading.Thread(None, extr)
+      thread1.start()
+      thread1.join()
+    except:
+      print('Unable to start thread')
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
 
