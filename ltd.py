@@ -169,11 +169,12 @@ def self_ping():
     repo = "anoop-kmr/ltdinia"
     branch="feature/updated_prices"
     push_to_github(filename, repo, branch, git_token)
-    print(requests.get("https://ltdinia.onrender.com/"))
     try:
-      thread1 = threading.Thread(None, extr)
-      thread1.start()
-      thread1.join()
+      extr()
+      print(requests.get("https://ltdinia.onrender.com/"))
+#       thread1 = threading.Thread(None, extr)
+#       thread1.start()
+#       thread1.join()
     except:
       print('Unable to start thread')
 thread3 = threading.Thread(None, self_ping)
