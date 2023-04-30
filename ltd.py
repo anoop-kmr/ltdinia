@@ -171,8 +171,9 @@ def self_ping():
     push_to_github(filename, repo, branch, git_token)
     print(requests.get("https://ltdinia.onrender.com/"))
     try:
-      thread1 = threading.Thread(None, extr)
-      thread1.start()
+      threading.Thread(target=extr).start()
+#       thread1 = threading.Thread(None, extr)
+#       thread1.start()
     except:
       print('Unable to start thread')
 thread3 = threading.Thread(None, self_ping)
