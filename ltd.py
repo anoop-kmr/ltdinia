@@ -164,7 +164,7 @@ print('Waiting for the thread...')
 
 def self_ping():
   while True:
-    time.sleep(540)
+    time.sleep(100)
     filename="lowest.txt"
     repo = "anoop-kmr/ltdinia"
     branch="feature/updated_prices"
