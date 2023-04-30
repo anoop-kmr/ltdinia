@@ -154,7 +154,7 @@ def extr():
   print("Thread Running!!")
   while i in range(1,pgno+1):
     pgno=extractDetails(i)
-#     requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text='+str(i))
+    requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id=ltdinia&text=Pgno: '+str(i)+' out of '+str(pgno))
     i=i+1
 #     if i==pgno:
 #       i=1
@@ -164,17 +164,15 @@ print('Waiting for the thread...')
 
 def self_ping():
   while True:
-    time.sleep(100)
+    time.sleep(200)
     filename="lowest.txt"
     repo = "anoop-kmr/ltdinia"
     branch="feature/updated_prices"
     push_to_github(filename, repo, branch, git_token)
+    print(requests.get("https://ltdinia.onrender.com/"))
     try:
-      extr()
-      print(requests.get("https://ltdinia.onrender.com/"))
-#       thread1 = threading.Thread(None, extr)
-#       thread1.start()
-#       thread1.join()
+      thread1 = threading.Thread(None, extr)
+      thread1.start()
     except:
       print('Unable to start thread')
 thread3 = threading.Thread(None, self_ping)
