@@ -153,7 +153,7 @@ def extr():
   global i,pgno,git_token
   print("Thread Running!!")
   while i in range(1,pgno+1):
-    threading.Thread(target=extractDetails,args=(str(i))).start()
+    threading.Thread(target=extractDetails,args=[i]).start()
 #     pgno=extractDetails(i)
 #     requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id=@ltdinia&text=Pgno: '+str(i)+' out of '+str(pgno))
     i=i+1
