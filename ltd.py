@@ -155,7 +155,7 @@ def extr():
   while i in range(1,pgno+1):
     threading.Thread(target=extractDetails,args=[i]).start()
 #     pgno=extractDetails(i)
-#     requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id=@ltdinia&text=Pgno: '+str(i)+' out of '+str(pgno))
+    requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id=@ltdinia&text=Pgno: '+str(i)+' out of '+str(pgno)+'\nnumber of current threads is '+str(threading.active_count()))
     i=i+1
     if i==pgno:
       i=1
