@@ -152,12 +152,12 @@ i=1
 def extr():
   global i,pgno,git_token
   print("Thread Running!!")
-  while i in range(1,pgno+1):
+  while i in range(1,pgno+2):
     threading.Thread(target=extractDetails,args=[i]).start()
 #     pgno=extractDetails(i)
     requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id=@ltdinia&text=Pgno: '+str(i)+' out of '+str(pgno)+'\nnumber of current threads is '+str(threading.active_count()))
     i=i+1
-    if i==pgno:
+    if i==pgno+1:
       i=1
       time.sleep(10)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
