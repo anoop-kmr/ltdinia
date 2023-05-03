@@ -153,12 +153,12 @@ def extr():
   global i,pgno,git_token
   print("Thread Running!!")
   while i in range(1,pgno+2):
-    threading.Thread(target=extractDetails,args=[i]).start()
-#     pgno=extractDetails(i)
+    #threading.Thread(target=extractDetails,args=[i]).start()
+    pgno=extractDetails(i)
     i=i+1
     if i==pgno+1:
       i=1
-      time.sleep(500)
+      time.sleep(300)
       filename="lowest.txt"
       repo = "anoop-kmr/ltdinia"
       branch="feature/updated_prices"
