@@ -162,7 +162,7 @@ def extr():
       filename="lowest.txt"
       repo = "anoop-kmr/ltdinia"
       branch="feature/updated_prices"
-      push_to_github(filename, repo, branch, git_token)
+#      push_to_github(filename, repo, branch, git_token)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
 thr = threading.Thread(None, extr)
 thr.start()
