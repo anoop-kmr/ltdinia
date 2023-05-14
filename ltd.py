@@ -3,6 +3,7 @@ import json,base64
 from bs4 import BeautifulSoup
 from os import environ
 
+import random
 import http.server
 import socketserver
 import threading
@@ -158,7 +159,7 @@ def extr():
     i=i+1
     if i==pgno+1:
       i=1
-      time.sleep(300)
+      time.sleep(random.randint(100,200))
       filename="lowest.txt"
       repo = "anoop-kmr/ltdinia"
       branch="feature/updated_prices"
@@ -170,7 +171,7 @@ print('Waiting for the thread...')
 
 def self_ping():
   while True:
-    time.sleep(800)
+    time.sleep(random.randint(600,800))
     print(requests.get("https://ltdinia.onrender.com/"))
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
