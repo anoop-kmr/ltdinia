@@ -102,7 +102,7 @@ def extractDetails(pno):
           x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
           studentDict = json.loads(x)
           #print(studentDict["metadata"]["totalResultCount"]//24)
-          pgno=studentDict["metadata"]["totalResultCount"]//studentDict["metadata"]["asinOnPageCount"]
+          pgno=(studentDict["metadata"]["totalResultCount"]//studentDict["metadata"]["asinOnPageCount"] if (studentDict["metadata"]["asinOnPageCount"] != 0) else studentDict["metadata"]["totalResultCount"]//16)
           #print(pgno)
         try:
             if "data-main-slot:search-result-" in i:
@@ -112,8 +112,8 @@ def extractDetails(pno):
                 parsed_html = BeautifulSoup(studentDict["html"], "html.parser")
                 #print(studentDict["asin"])
                 #print(parsed_html.find('div',{'class':"s-title-instructions-style"}).text.strip())
-                price=int(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
-                pct=int(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('(')[1].split('%')[0].strip())
+                price=int(parsed_html.find('div',{'class':"puis-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
+                pct=int(parsed_html.find('div',{'class':"puis-price-instructions-style"}).text.split('(')[1].split('%')[0].strip())
                 #print(price)
                 #pdt={studentDict["asin"]:price}
                 if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
