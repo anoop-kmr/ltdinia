@@ -60,7 +60,8 @@ def extractDetails(pno):
   #data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
   lowest_price = json.loads(data)
   print(pno)
-  url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
+  url = "https://www.amazon.in/s?i=merchant-items&me=A1X54IAKXCWO8D&page="+str(pno)+"&marketplaceID=A21TJRUUN4KGV&qid=1687002115&ref=sr_pg_1"
+  #url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
   payload = json.dumps({
     "customer-action": "pagination"
