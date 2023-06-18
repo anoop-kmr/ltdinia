@@ -118,12 +118,12 @@ def extractDetails(pno):
                 #print(price)
                 try:
                   cpn=parsed_html.find('span',{'class':"s-coupon-clipped"}).text.strip()
-                  msg+=cpn
+                  msg+="\n"+str(cpn)
                 except:
                   print("No Coupon")
                 try:
                   bnk=parsed_html.find('span',{'class':"a-truncate-full"}).text.strip()
-                  msg+=bnk
+                  msg+="\n"+str(bnk)
                 except:
                   print("No Bank Offers")
                 #pdt={studentDict["asin"]:price}
