@@ -106,15 +106,26 @@ def extractDetails(pno):
           #print(pgno)
         try:
             if "data-main-slot:search-result-" in i:
+                msg=""
                 x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
                 #print(x+'\n\n')
                 studentDict = json.loads(x)
                 parsed_html = BeautifulSoup(studentDict["html"], "html.parser")
                 #print(studentDict["asin"])
                 #print(parsed_html.find('div',{'class':"s-title-instructions-style"}).text.strip())
-                price=int(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
-                pct=int(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('(')[1].split('%')[0].strip())
+                price=int(float(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", "")))
+                pct=int(float(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('(')[1].split('%')[0].strip()))
                 #print(price)
+                try:
+                  cpn=parsed_html.find('span',{'class':"s-coupon-clipped"}).text.strip()
+                  msg+=cpn
+                except:
+                  print("No Coupon")
+                try:
+                  bnk=parsed_html.find('span',{'class':"a-truncate-full"}).text.strip()
+                  msg+=bnk
+                except:
+                  print("No Bank Offers")
                 #pdt={studentDict["asin"]:price}
                 if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                   List[studentDict["asin"]]=price
@@ -122,11 +133,11 @@ def extractDetails(pno):
                   msg=""
                   if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price:
                     lowest_price[studentDict["asin"]]=price
-                    msg="\nLowest Price !!"
+                    msg+="\nLowest Price !!"
                     time.sleep(random.randint(4,12))
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
                   elif int(lowest_price[studentDict["asin"]])<price:
-                    msg="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
+                    msg+="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
                     time.sleep(random.randint(4,12))
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
                   #print(pdt)
