@@ -60,8 +60,8 @@ def extractDetails(pno):
   #data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
   lowest_price = json.loads(data)
   print(pno)
-  url = "https://www.amazon.in/s/query?i=merchant-items&me=A1X54IAKXCWO8D&page="+str(pno)+"&marketplaceID=A21TJRUUN4KGV"
-  #url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
+  #url = "https://www.amazon.in/s/query?i=merchant-items&me=A1X54IAKXCWO8D&page="+str(pno)+"&marketplaceID=A21TJRUUN4KGV"
+  url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
 
   payload = json.dumps({
     "customer-action": "pagination"
@@ -112,8 +112,8 @@ def extractDetails(pno):
                 parsed_html = BeautifulSoup(studentDict["html"], "html.parser")
                 #print(studentDict["asin"])
                 #print(parsed_html.find('div',{'class':"s-title-instructions-style"}).text.strip())
-                price=int(parsed_html.find('div',{'class':"puis-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
-                pct=int(parsed_html.find('div',{'class':"puis-price-instructions-style"}).text.split('(')[1].split('%')[0].strip())
+                price=int(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('₹')[1].strip().replace(",", ""))
+                pct=int(parsed_html.find('div',{'class':"s-price-instructions-style"}).text.split('(')[1].split('%')[0].strip())
                 #print(price)
                 #pdt={studentDict["asin"]:price}
                 if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
@@ -123,11 +123,11 @@ def extractDetails(pno):
                   if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price:
                     lowest_price[studentDict["asin"]]=price
                     msg="\nLowest Price !!"
-                    time.sleep(3)
+                    time.sleep(random.randint(4,12))
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
                   elif int(lowest_price[studentDict["asin"]])<price:
                     msg="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
-                    time.sleep(3)
+                    time.sleep(random.randint(4,12))
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
                   #print(pdt)
                   #print(req)
@@ -160,7 +160,7 @@ def extr():
     i=i+1
     if i==pgno+1:
       i=1
-      time.sleep(random.randint(100,200))
+      time.sleep(random.randint(20,100))
       filename="lowest.txt"
       repo = "anoop-kmr/ltdinia"
       branch="feature/updated_prices"
@@ -172,7 +172,7 @@ print('Waiting for the thread...')
 
 def self_ping():
   while True:
-    time.sleep(random.randint(600,800))
+    time.sleep(random.randint(500,700))
     print(requests.get("https://ltdinia.onrender.com/"))
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
