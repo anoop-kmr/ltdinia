@@ -127,11 +127,11 @@ def extractDetails(pno):
                 except:
                   print("No Bank Offers")
                 #pdt={studentDict["asin"]:price}
-                if (studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
+                if True: #(studentDict["asin"] not in List) or List[studentDict["asin"]]!=price:
                   List[studentDict["asin"]]=price
                   #time.sleep(3)
                   #msg=""
-                  if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price:
+                  if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>=price:
                     lowest_price[studentDict["asin"]]=price
                     msg+="\nLowest Price !!"
                     time.sleep(random.randint(4,12))
