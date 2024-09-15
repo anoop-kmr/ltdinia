@@ -20,12 +20,19 @@ pgno=2
 bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
 git_token=environ['GIT_TOKEN']
+group_id_c=environ['grp_c']
 
 git_data = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest.txt')
 lp = json.loads(git_data.text)
 with open('lowest.txt','wt',encoding='utf-8') as fw:
   fw.write(json.dumps(lp))
   fw.close()
+
+git_data_c = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest_c.txt')
+lp_c = json.loads(git_data.text)
+with open('lowest_c.txt','wt',encoding='utf-8') as fw_c:
+  fw_c.write(json.dumps(lp_c))
+  fw_c.close()
 
 def push_to_github(filename, repo, branch, token):
     url="https://api.github.com/repos/"+repo+"/contents/"+filename
@@ -59,6 +66,62 @@ def extractDetails(pno):
     #print(data)
   #data=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
   lowest_price = json.loads(data)
+
+  if pno==1:
+    with open('lowest_c.txt',encoding='utf-8') as f_c:
+      data_c = f_c.read()
+      f_c.close()
+    lowest_price_c = json.loads(data_c)
+    url_c = "https://www.cashify.in/api/omni01/product/catalogue/list/search/results"
+    payload_c = json.dumps({
+      "fr": {
+        "sale_price": [
+          {
+            "from": 0,
+            "to": 40000
+          }
+        ],
+        "product_type": [
+          {
+            "name": "product_type",
+            "value": "Mobile Phone"
+          }
+        ],
+        "availability": [
+          {
+            "count": 169,
+            "value": "In Stock"
+          }
+        ]
+      },
+      "os": 1,
+      "ps": 1000
+    })
+    headers_c = {
+      'accept': 'application/json, text/plain, */*',
+      'accept-language': 'en-US,en;q=0.9',
+      'cache-control': 'max-age=0',
+      'content-type': 'application/json',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-site': 'same-origin',
+      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
+    }
+    try:
+      response_c = requests.request("POST", url_c, headers=headers_c, data=payload_c, allow_redirects=False)
+      for item in response_c.json()["results"]:
+        print(item["product_name"]+" Price : "+str(item["sale_price"]))
+        if (item["product_name"] not in lowest_price_c) or int(lowest_price_c[item["product_name"]])>item["sale_price"]:
+          lowest_price_c[item["product_name"]]=item["sale_price"]
+          msg+="\nLowest Price !!"
+          time.sleep(random.randint(4,12))
+          req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id_c+'&text=https://www.cashify.in'+item["slug"]+'\n'+str(item["sale_price"])+'\nAvailable Qty : '+str(item["available_quantity"])+msg)
+        elif int(lowest_price_c[item["product_name"]])<item["sale_price"]:
+          msg+="\nLowest Price: "+str(lowest_price_c[item["product_name"]])
+          time.sleep(random.randint(4,12))
+          req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id_c+'&disable_notification=true&text=https://www.cashify.in'+item["slug"]+'\n'+str(item["sale_price"])+'\nAvailable Qty : '+str(item["available_quantity"])+msg)
+    except:
+      print("Connection Error")
+
   print(pno)
   #url = "https://www.amazon.in/s/query?i=merchant-items&me=A1X54IAKXCWO8D&page="+str(pno)+"&marketplaceID=A21TJRUUN4KGV"
   #url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
@@ -156,6 +219,10 @@ def extractDetails(pno):
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(json.dumps(lowest_price))
     fw.close()
+
+  with open('lowest_c.txt','wt',encoding='utf-8') as fw_c:
+    fw_c.write(json.dumps(lowest_price_c))
+    fw_c.close()
 #   print(requests.head("https://ltdinia.onrender.com/"))
   return pgno
 
@@ -174,9 +241,11 @@ def extr():
       i=1
       time.sleep(random.randint(20,100))
       filename="lowest.txt"
+      filename_c="lowest_c.txt"
       repo = "anoop-kmr/ltdinia"
       branch="feature/updated_prices"
       push_to_github(filename, repo, branch, git_token)
+      push_to_github(filename_c, repo, branch, git_token)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
 thr = threading.Thread(None, extr)
 thr.start()
