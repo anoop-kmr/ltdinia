@@ -109,6 +109,7 @@ def extractDetails(pno):
     try:
       response_c = requests.request("POST", url_c, headers=headers_c, data=payload_c, allow_redirects=False)
       for item in response_c.json()["results"]:
+        msg=""
         print(item["product_name"]+" Price : "+str(item["sale_price"]))
         if (item["product_name"] not in lowest_price_c) or int(lowest_price_c[item["product_name"]])>item["sale_price"]:
           lowest_price_c[item["product_name"]]=item["sale_price"]
