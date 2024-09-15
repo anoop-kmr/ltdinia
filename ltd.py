@@ -246,6 +246,7 @@ def extr():
       repo = "anoop-kmr/ltdinia"
       branch="feature/updated_prices"
       push_to_github(filename, repo, branch, git_token)
+      time.sleep(random.randint(5,10))
       push_to_github(filename_c, repo, branch, git_token)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
 thr = threading.Thread(None, extr)
