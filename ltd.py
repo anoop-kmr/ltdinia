@@ -219,10 +219,11 @@ def extractDetails(pno):
   with open('lowest.txt','wt',encoding='utf-8') as fw:
     fw.write(json.dumps(lowest_price))
     fw.close()
-
-  with open('lowest_c.txt','wt',encoding='utf-8') as fw_c:
-    fw_c.write(json.dumps(lowest_price_c))
-    fw_c.close()
+  
+  if pno==1:
+    with open('lowest_c.txt','wt',encoding='utf-8') as fw_c:
+      fw_c.write(json.dumps(lowest_price_c))
+      fw_c.close()
 #   print(requests.head("https://ltdinia.onrender.com/"))
   return pgno
 
