@@ -112,7 +112,7 @@ def extractDetails(pno):
         msg=""
         print(item["product_name"]+" Price : "+str(item["sale_price"]))
         if (item["product_name"] not in lowest_price_c) or int(lowest_price_c[item["product_name"]])>item["sale_price"]:
-          lowest_price_c[item["product_name"]]=item["sale_price"]
+          lowest_price_c[item["product_name"]]=item["sale_price"]+1
           msg+="\nLowest Price !!"
           time.sleep(random.randint(4,12))
           req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id_c+'&text=https://www.cashify.in'+item["slug"]+'\n'+str(item["sale_price"])+'\nAvailable Qty : '+str(item["available_quantity"])+msg)
