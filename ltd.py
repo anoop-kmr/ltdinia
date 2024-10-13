@@ -78,23 +78,16 @@ def extractDetails(pno):
         "sale_price": [
           {
             "from": 0,
-            "to": 40000
-          }
-        ],
-        "product_type": [
-          {
-            "name": "product_type",
-            "value": "Mobile Phone"
+            "to": 400000
           }
         ],
         "availability": [
           {
-            "count": 169,
             "value": "In Stock"
           }
         ]
       },
-      "os": 1,
+      "os": 0,
       "ps": 1000
     })
     headers_c = {
