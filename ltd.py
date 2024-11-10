@@ -155,7 +155,7 @@ def extractDetails(pno):
 
     for i in response.text.split('\n&&&\n'):
         res = i.strip('][').split(', ')
-        #res=json.loads(i)
+        print(res)#res=json.loads(i)
         if "data-search-metadata" in i:
           x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
           studentDict = json.loads(x)
