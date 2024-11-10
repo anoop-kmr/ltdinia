@@ -103,7 +103,7 @@ def extractDetails(pno):
       response_c = requests.request("POST", url_c, headers=headers_c, data=payload_c, allow_redirects=False)
       for item in response_c.json()["results"]:
         msg=""
-        print(item["product_name"]+" Price : "+str(item["sale_price"]))
+        #print(item["product_name"]+" Price : "+str(item["sale_price"]))
         if (item["product_name"] not in lowest_price_c) or int(lowest_price_c[item["product_name"]])>item["sale_price"]:
           lowest_price_c[item["product_name"]]=item["sale_price"]+1
           msg+="\nLowest Price !!"
@@ -119,7 +119,7 @@ def extractDetails(pno):
   print(pno)
   #url = "https://www.amazon.in/s/query?i=merchant-items&me=A1X54IAKXCWO8D&page="+str(pno)+"&marketplaceID=A21TJRUUN4KGV"
   #url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n%3A976419031%2Cp_n_condition-type%3A13736826031%2Cp_6%3AA1X54IAKXCWO8D"
-  url = "https://www.amazon.in/s?page="+str(pno)+"&rh=n:976419031,p_n_condition-type:13736826031"
+  url = "https://www.amazon.in/s/query?page="+str(pno)+"&rh=n:976419031,p_n_condition-type:13736826031"
 
   payload = json.dumps({
     "customer-action": "pagination"
@@ -160,7 +160,7 @@ def extractDetails(pno):
           x=i[i.find("{"):i.rfind("}")+1].replace("\n", "").replace("  ", "")
           studentDict = json.loads(x)
           #print(studentDict["metadata"]["totalResultCount"]//24)
-          pgno=(studentDict["metadata"]["totalResultCount"]//studentDict["metadata"]["asinOnPageCount"] if (studentDict["metadata"]["asinOnPageCount"] != 0) else studentDict["metadata"]["totalResultCount"]//16)
+          pgno=(studentDict["metadata"]["totalResultCount"]//studentDict["metadata"]["asinOnPageCount"] if (studentDict["metadata"]["asinOnPageCount"] != 0) else studentDict["metadata"]["totalResultCount"]//24)
           #print(pgno)
         try:
             if "data-main-slot:search-result-" in i:
