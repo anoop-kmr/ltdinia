@@ -22,7 +22,7 @@ group_id=environ['grp']
 git_token=environ['GIT_TOKEN']
 group_id_c=environ['grp_c']
 
-git_data = requests.get('https://raw.githubusercontent.com/anoop-kmr/ltdinia/refs/heads/feature/updated_prices/lowest.txt')
+git_data = requests.get('https://raw.githubusercontent.com/anoop-kmr/ltdinia/refs/heads/feature/updated_prices/lowest.txt',headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'})
 print(git_data)
 lp = json.loads(git_data.text)
 with open('lowest.txt','wt',encoding='utf-8') as fw:
