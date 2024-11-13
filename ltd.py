@@ -23,7 +23,10 @@ git_token=environ['GIT_TOKEN']
 group_id_c=environ['grp_c']
 
 git_data = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest.txt')
-lp = json.loads(git_data.text)
+try:
+  lp = json.loads(git_data.text)
+except json.JSONDecodeError as e:
+  print("Invalid JSON syntax:", e)
 with open('lowest.txt','wt',encoding='utf-8') as fw:
   fw.write(json.dumps(lp))
   fw.close()
