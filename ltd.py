@@ -23,6 +23,7 @@ git_token=environ['GIT_TOKEN']
 group_id_c=environ['grp_c']
 
 git_data = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest.txt')
+print(git_data)
 try:
   lp = json.loads(git_data.text)
 except json.JSONDecodeError as e:
