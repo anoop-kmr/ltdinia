@@ -29,7 +29,7 @@ with open('lowest.txt','wt',encoding='utf-8') as fw:
   fw.write(json.dumps(lp))
   fw.close()
 
-git_data_c = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest_c.txt')
+git_data_c = requests.get('https://github.com/anoop-kmr/ltdinia/raw/feature/updated_prices/lowest_c.txt',headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'})
 lp_c = json.loads(git_data_c.text)
 with open('lowest_c.txt','wt',encoding='utf-8') as fw_c:
   fw_c.write(json.dumps(lp_c))
