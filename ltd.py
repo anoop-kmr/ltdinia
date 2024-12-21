@@ -255,7 +255,10 @@ def self_ping():
 thread3 = threading.Thread(None, self_ping)
 thread3.start()
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
+class ThreadedHTTPServer(socketserver.ThreadingMixIn,http.server.HTTPServer):
+  daemon_threads = True # Ensures threads exit when the server shuts down
+
+with ThreadedHTTPServer(("", PORT), Handler) as httpd:
   print("serving at port", PORT)
   try:
     httpd.serve_forever()
