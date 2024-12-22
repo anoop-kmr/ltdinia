@@ -235,7 +235,7 @@ def extr():
     i=i+1
     if i==pgno+1:
       i=1
-      time.sleep(random.randint(20,100))
+      time.sleep(random.randint(100,200))
       filename="lowest.txt"
       filename_c="lowest_c.txt"
       repo = "anoop-kmr/ltdinia"
