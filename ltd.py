@@ -235,13 +235,13 @@ def extr():
     i=i+1
     if i==pgno+1:
       i=1
-      time.sleep(random.randint(100,200))
+      time.sleep(random.randint(50,100))
       filename="lowest.txt"
       filename_c="lowest_c.txt"
       repo = "anoop-kmr/ltdinia"
       branch="feature/updated_prices"
       push_to_github(filename, repo, branch, git_token)
-      time.sleep(random.randint(5,10))
+      time.sleep(random.randint(6,15))
       push_to_github(filename_c, repo, branch, git_token)
 #       print(subprocess.run(["./upd_price.sh",git_token]))
 thr = threading.Thread(None, extr)
