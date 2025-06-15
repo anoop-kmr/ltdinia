@@ -108,12 +108,12 @@ def extractDetails(pno):
         if (item["product_name"] not in lowest_price_c) or int(lowest_price_c[item["product_name"]])>item["sale_price"]:
           lowest_price_c[item["product_name"]]=item["sale_price"]+1
           msg+="\nLowest Price !!"
-          time.sleep(random.randint(5,15))
-          req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id_c+'&text=https://www.cashify.in'+item["slug"]+'\n'+str(item["sale_price"])+'\nAvailable Qty : '+str(item["available_quantity"])+msg)
+          #time.sleep(random.randint(5,15))
+          #req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id_c+'&text=https://www.cashify.in'+item["slug"]+'\n'+str(item["sale_price"])+'\nAvailable Qty : '+str(item["available_quantity"])+msg)
         elif int(lowest_price_c[item["product_name"]])<item["sale_price"]:
           msg+="\nLowest Price: "+str(lowest_price_c[item["product_name"]])
-          time.sleep(random.randint(5,15))
-          req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id_c+'&disable_notification=true&text=https://www.cashify.in'+item["slug"]+'\n'+str(item["sale_price"])+'\nAvailable Qty : '+str(item["available_quantity"])+msg)
+          #time.sleep(random.randint(5,15))
+          #req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id_c+'&disable_notification=true&text=https://www.cashify.in'+item["slug"]+'\n'+str(item["sale_price"])+'\nAvailable Qty : '+str(item["available_quantity"])+msg)
     except:
       print("Connection Error")
 
