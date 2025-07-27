@@ -190,7 +190,7 @@ def extractDetails(pno):
                   List[studentDict["asin"]]=price
                   #time.sleep(3)
                   #msg=""
-                  if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price:
+                  if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price*0.98:
                     lowest_price[studentDict["asin"]]=price+1
                     msg+="\nLowest Price !!"
                     time.sleep(random.randint(4,12))
