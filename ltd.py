@@ -19,6 +19,7 @@ pgno=2
 #lowest_price={}
 bot_token=environ['BOT_TOKEN']
 group_id=environ['grp']
+group_id_low=environ['grp_low']
 git_token=environ['GIT_TOKEN']
 group_id_c=environ['grp_c']
 
@@ -194,7 +195,7 @@ def extractDetails(pno):
                     lowest_price[studentDict["asin"]]=price+1
                     msg+="\nLowest Price !!"
                     time.sleep(random.randint(4,12))
-                    req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
+                    req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id_low+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
                   elif int(lowest_price[studentDict["asin"]])<price:
                     msg+="\nLowest Price: "+str(lowest_price[studentDict["asin"]])
                     time.sleep(random.randint(4,12))
