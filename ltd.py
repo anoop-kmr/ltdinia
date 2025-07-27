@@ -191,7 +191,7 @@ def extractDetails(pno):
                   #time.sleep(3)
                   #msg=""
                   if (studentDict["asin"] not in lowest_price) or int(lowest_price[studentDict["asin"]])>price:
-                    lowest_price[studentDict["asin"]]=price
+                    lowest_price[studentDict["asin"]]=price+1
                     msg+="\nLowest Price !!"
                     time.sleep(random.randint(4,12))
                     req=requests.get('https://api.telegram.org/bot'+bot_token+'/sendMessage?chat_id='+group_id+'&text=https://www.amazon.in/dp/'+studentDict["asin"]+'/ref=ox_sc_saved_title_7?smid=A1X54IAKXCWO8D\n'+str(price)+'\n'+str(pct)+'% off'+msg)
